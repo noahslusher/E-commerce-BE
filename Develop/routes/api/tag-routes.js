@@ -1,6 +1,4 @@
 const router = require('express').Router();
-const { json } = require('sequelize/types');
-const { restore } = require('../../../../just-tech-news/models/Post');
 const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
@@ -9,10 +7,12 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   Tag.findAll({
-    include: {
-      model: Product,
-      attributes: ['product_id']
+    include: [
+      {
+        model: Product,
+      
     }
+  ]
   })
   .then(dbTagData => res.json(dbTagData))
   .catch(err => {
@@ -27,10 +27,11 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id
     },
-    include: {
+    include: [
+      {
       model: Product,
-      attributes: ['product_id']
     }
+  ]
   })
   .then(dbTagData => {
     if (!dbTagData) {
@@ -62,9 +63,12 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
   Tag.update({
+    tag_name: req.body.tag_name
+    },
+    {
     where: {
       id: req.params.id
-    },
+    }
   })
   .then(dbTagData => {
     if (!dbTagData) {
