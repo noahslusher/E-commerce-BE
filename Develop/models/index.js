@@ -7,6 +7,7 @@ const { belongsTo } = require('./Category');
 
 // Products belongsTo Category
 Product.belongsTo(Category, {
+  onDelete: 'null',
   foreignKey: 'category_id'
 })
 
@@ -14,6 +15,7 @@ Product.belongsTo(Category, {
 
 // Categories have many Products
 Category.hasMany(Product, {
+  onDelete: 'null',
   foreignKey: 'category_id'
 })
 
